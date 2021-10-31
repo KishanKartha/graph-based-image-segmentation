@@ -2,20 +2,24 @@ import math
 
 import OptimizedUnionFind as uf
 
+
 def get_diff(img, x1, y1, x2, y2):
     r = (img[0][y1, x1] - img[0][y2, x2]) ** 2
     g = (img[1][y1, x1] - img[1][y2, x2]) ** 2
     b = (img[2][y1, x1] - img[2][y2, x2]) ** 2
     return math.sqrt(r + g + b)
 
+
 def get_threshold(k, size):
     return (k / size)
+
 
 def create_edge(img, width, x1, y1, x2, y2):
     vertex_id = lambda x, y: y * width + x
 
     w = get_diff(img, x1, y1, x2, y2)
     return (vertex_id(x1, y1), vertex_id(x2, y2), w)
+
 
 def build_graph(img, width, height):
     graph = []
@@ -33,6 +37,7 @@ def build_graph(img, width, height):
 
     return graph
 
+
 def remove_small_component(ufset, sorted_graph, min_size):
     for edge in sorted_graph:
         u = ufset.find(edge[0])
@@ -43,6 +48,7 @@ def remove_small_component(ufset, sorted_graph, min_size):
                 ufset.merge(u, v)
 
     return ufset
+
 
 def segment_graph(sorted_graph, num_node, k):
     ufset = uf.OptimizedUnionFind(num_node)
